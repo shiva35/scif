@@ -1,23 +1,25 @@
 {
-  "start_url": "/scif/",
   "name": "State Compensation Insurance Fund",
   "short_name": "SCIF",
   "description": "Workers Compensation Insurance",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#df436e",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'><rect width='192' height='192' fill='%23df436e' rx='20'/><text x='96' y='125' font-size='70' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'>SCIF</text></svg>",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192'%3E%3Crect width='192' height='192' fill='%23df436e' rx='20'/%3E%3Ctext x='96' y='125' font-size='70' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3ESCIF%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' fill='%23df436e' rx='50'/><text x='256' y='330' font-size='180' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'>SCIF</text></svg>",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Crect width='512' height='512' fill='%23df436e' rx='50'/%3E%3Ctext x='256' y='330' font-size='180' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3ESCIF%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
