@@ -1,1 +1,1 @@
-#scif-insurance-app
+#scif
