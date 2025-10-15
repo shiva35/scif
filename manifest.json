@@ -1,0 +1,22 @@
+{
+  "name": "State Compensation Insurance Fund",
+  "short_name": "SCIF",
+  "description": "Workers Compensation Insurance",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#df436e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'><rect width='192' height='192' fill='%23df436e' rx='20'/><text x='96' y='125' font-size='70' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'>SCIF</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' fill='%23df436e' rx='50'/><text x='256' y='330' font-size='180' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'>SCIF</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
