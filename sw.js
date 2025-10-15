@@ -2,9 +2,9 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('scif-v1').then(function(cache) {
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/manifest.json'
+        './',
+        './index.html',
+        './manifest.json'
       ]);
     })
   );
