@@ -5,1166 +5,419 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SCIF Insurance">
     <meta name="theme-color" content="#df436e">
-    <title>State Compensation Insurance Fund</title>
+    <title>SCIF Insurance</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><rect width='180' height='180' fill='%23df436e' rx='20'/><text x='90' y='115' font-size='60' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'>SCIF</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            overflow-x: hidden;
-        }
-        
-        .app-container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 70px;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-        }
-        
-        .header {
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #df436e;
-            font-size: 24px;
-        }
-        
-        .company-name {
-            font-size: 20px;
-            font-weight: 600;
-            text-align: left;
-            line-height: 1.3;
-        }
-        
-        .hero-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect fill="%23667eea" width="400" height="200"/><circle fill="%23764ba2" opacity="0.3" cx="100" cy="100" r="80"/><circle fill="%23f093fb" opacity="0.3" cx="300" cy="120" r="60"/></svg>');
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .content {
-            padding: 20px;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: transform 0.2s;
-        }
-        
-        .btn:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #df436e;
-            border: 2px solid #df436e;
-        }
-        
-        .input-group {
-            margin-bottom: 16px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .input-group input, .input-group select, .input-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-        
-        .input-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .link {
-            color: #df436e;
-            text-decoration: none;
-            font-size: 14px;
-            display: block;
-            margin: 10px 0;
-        }
-        
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: #666;
-            text-decoration: none;
-            font-size: 12px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        
-        .nav-item.active {
-            color: #df436e;
-        }
-        
-        .nav-icon {
-            font-size: 24px;
-        }
-        
-        .hamburger {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 28px;
-            color: white;
-            cursor: pointer;
-            z-index: 100;
-        }
-        
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100vh;
-            background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-            transition: right 0.3s;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-        
-        .sidebar.open {
-            right: 0;
-        }
-        
-        .sidebar-header {
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-            color: white;
-            padding: 20px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-        }
-        
-        .sidebar-menu li {
-            padding: 16px 20px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-        }
-        
-        .sidebar-menu li:hover {
-            background: #f5f5f5;
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            z-index: 999;
-        }
-        
-        .overlay.show {
-            display: block;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #333;
-        }
-        
-        .card-content {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0 auto 16px;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .stat-label {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .stat-value {
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .page {
-            display: none;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        .claim-item, .payment-item, .document-item {
-            padding: 12px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #df436e;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-        
-        .status-completed {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-covered {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        .back-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            position: absolute;
-            left: 20px;
-            top: 20px;
-        }
-        
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 16px;
-        }
-        
-        .payment-method {
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .payment-method:hover {
-            border-color: #df436e;
-            background: #fff5f7;
-        }
-        
-        .payment-method.selected {
-            border-color: #df436e;
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-            color: white;
-        }
-        
-        .step-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding: 0 20px;
-        }
-        
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-        
-        .step-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #ddd;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-        
-        .step.active .step-number {
-            background: linear-gradient(45deg, #df436e 0%, #ff945b 100%);
-        }
-        
-        .step.completed .step-number {
-            background: #28a745;
-        }
-        
-        .step-label {
-            font-size: 11px;
-            color: #666;
-            text-align: center;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
+        :root{--gradient:linear-gradient(45deg,#df436e,#ff945b)}body{background:#f5f5f5}.app-container{max-width:480px;margin:0 auto;background:#fff;min-height:100vh;padding-bottom:70px}.gradient-bg{background:var(--gradient);color:#fff}.btn-gradient{background:var(--gradient);border:none;color:#fff}.btn-gradient:hover{opacity:.9;color:#fff}.btn-outline-gradient{border:2px solid #df436e;color:#df436e;background:#fff}.btn-outline-gradient:hover{background:var(--gradient);color:#fff}.logo{width:60px;height:60px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#df436e;font-size:24px}.hero-image{width:100%;height:200px;background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect fill="%23667eea" width="400" height="200"/></svg>');background-size:cover}.avatar{width:60px;height:60px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:600}.page{display:none}.page.active{display:block}.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #dee2e6;z-index:1000}.nav-item-custom{flex:1;text-align:center;padding:10px 5px;color:#6c757d;text-decoration:none;font-size:12px;cursor:pointer}.nav-item-custom:hover,.nav-item-custom.active{color:#df436e}.nav-item-custom i{font-size:24px;display:block;margin-bottom:4px}.claim-item,.payment-item,.document-item{padding:12px;background:#f8f9fa;border-radius:8px;margin-bottom:10px;border-left:4px solid #df436e}.payment-method{padding:20px;border:2px solid #dee2e6;border-radius:8px;text-align:center;cursor:pointer;transition:all .2s}.payment-method:hover{border-color:#df436e;background:#fff5f7}.payment-method.selected{border-color:#df436e;background:var(--gradient);color:#fff}.step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}.step-number{width:36px;height:36px;border-radius:50%;background:#dee2e6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}.step.active .step-number{background:var(--gradient)}.step.completed .step-number{background:#198754}.step-label{font-size:11px;color:#6c757d}
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Overlay for sidebar -->
-        <div class="overlay" id="overlay"></div>
-        
-        <!-- Sidebar Menu -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">Menu</div>
-            <ul class="sidebar-menu">
-                <li onclick="navigateTo('dashboard')">Dashboard</li>
-                <li onclick="navigateTo('manage-policy')">Manage Policy</li>
-                <li onclick="navigateTo('account')">Account</li>
-                <li onclick="navigateTo('claims')">Claims</li>
-                <li onclick="navigateTo('payments')">Payments</li>
-                <li onclick="navigateTo('documents')">Documents</li>
-                <li onclick="logout()">Logout</li>
-            </ul>
+<div class="app-container">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebarMenu">
+        <div class="offcanvas-header gradient-bg">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
-        
-        <!-- Home Page -->
-        <div class="page active" id="home-page">
-            <div class="header gradient-bg">
-                <div class="logo-container">
-                    <div class="logo">SCIF</div>
-                    <div class="company-name">State Compensation<br>Insurance Fund</div>
-                </div>
-            </div>
-            <div class="hero-image"></div>
-            <div class="content">
-                <button class="btn btn-primary" onclick="navigateTo('login')">Login</button>
-                <button class="btn btn-secondary" onclick="navigateTo('quote')">Get a Quote</button>
-            </div>
-        </div>
-        
-        <!-- Login Page -->
-        <div class="page" id="login-page">
-            <div class="header gradient-bg">
-                <button class="back-btn" onclick="navigateTo('home')">←</button>
-                <h2>Login</h2>
-            </div>
-            <div class="content">
-                <div class="input-group">
-                    <label>Email or Username</label>
-                    <input type="text" id="login-username" placeholder="Enter your email or username">
-                </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="login-password" placeholder="Enter your password">
-                </div>
-                <button class="btn btn-primary" onclick="login()">Login</button>
-                <a href="#" class="link">Forgot Password?</a>
-                <a href="#" class="link">Forgot Username?</a>
-                <a href="#" class="link">Set Up Biometrics</a>
-            </div>
-        </div>
-        
-        <!-- Get Quote Page -->
-        <div class="page" id="quote-page">
-            <div class="header gradient-bg">
-                <button class="back-btn" onclick="navigateTo('home')">←</button>
-                <h2>Get a Quote</h2>
-            </div>
-            <div class="step-indicator">
-                <div class="step active" id="step1-indicator">
-                    <div class="step-number">1</div>
-                    <div class="step-label">Business Info</div>
-                </div>
-                <div class="step" id="step2-indicator">
-                    <div class="step-number">2</div>
-                    <div class="step-label">Review</div>
-                </div>
-                <div class="step" id="step3-indicator">
-                    <div class="step-number">3</div>
-                    <div class="step-label">Payment</div>
-                </div>
-            </div>
-            <div class="content">
-                <div id="quote-step-1">
-                    <div class="input-group">
-                        <label>Business Name</label>
-                        <input type="text" id="biz-name" placeholder="Enter business name">
-                    </div>
-                    <div class="input-group">
-                        <label>Business Address</label>
-                        <textarea id="biz-address" placeholder="Enter business address"></textarea>
-                    </div>
-                    <div class="input-group">
-                        <label>SSN/FEIN</label>
-                        <input type="text" id="ssn-fein" placeholder="Enter SSN or FEIN">
-                    </div>
-                    <div class="input-group">
-                        <label>Class Codes</label>
-                        <input type="text" id="class-codes" placeholder="Enter class codes">
-                    </div>
-                    <div class="input-group">
-                        <label>Prior Losses</label>
-                        <input type="text" id="losses" placeholder="Enter loss history">
-                    </div>
-                    <div class="input-group">
-                        <label>Full-Time Employees</label>
-                        <input type="number" id="emp-fulltime" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Part-Time Employees</label>
-                        <input type="number" id="emp-parttime" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Policy Start Date</label>
-                        <input type="date" id="policy-start">
-                    </div>
-                    <div class="input-group">
-                        <label>Legal Entity</label>
-                        <select id="legal-entity">
-                            <option value="">Select...</option>
-                            <option value="s-corp">S Corporation</option>
-                            <option value="llc">LLC</option>
-                            <option value="prof-corp">Professional Corporation</option>
-                            <option value="association">Association</option>
-                            <option value="sole-prop">Sole Proprietorship</option>
-                            <option value="partnership">Partnership</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="goToQuoteStep2()">Continue</button>
-                </div>
-                
-                <div id="quote-step-2" class="hidden">
-                    <div class="card">
-                        <div class="card-title">Policy Details</div>
-                        <div class="card-content">
-                            <div class="stat-row">
-                                <span class="stat-label">Annual Premium:</span>
-                                <span class="stat-value">$2,450.00</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">Coverage Tier:</span>
-                                <span class="stat-value">Standard</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">Policy Start:</span>
-                                <span class="stat-value" id="confirm-start-date">01/15/2025</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">Employees Covered:</span>
-                                <span class="stat-value" id="confirm-emp-count">15</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="goToQuoteStep3()">Confirm & Proceed to Payment</button>
-                    <button class="btn btn-secondary" onclick="goToQuoteStep1()">Back</button>
-                </div>
-                
-                <div id="quote-step-3" class="hidden">
-                    <div class="card">
-                        <div class="card-title">Total Amount Due</div>
-                        <div class="card-content">
-                            <h2 style="color: #df436e; text-align: center; margin: 16px 0;">$2,450.00</h2>
-                        </div>
-                    </div>
-                    <div class="card-title">Select Payment Method</div>
-                    <div class="payment-methods">
-                        <div class="payment-method" onclick="selectPayment(this, 'paypal')">
-                            <div style="font-size: 32px;">💳</div>
-                            <div>PayPal</div>
-                        </div>
-                        <div class="payment-method" onclick="selectPayment(this, 'venmo')">
-                            <div style="font-size: 32px;">💰</div>
-                            <div>Venmo</div>
-                        </div>
-                        <div class="payment-method" onclick="selectPayment(this, 'card')">
-                            <div style="font-size: 32px;">💳</div>
-                            <div>Credit Card</div>
-                        </div>
-                        <div class="payment-method" onclick="selectPayment(this, 'debit')">
-                            <div style="font-size: 32px;">💳</div>
-                            <div>Debit Card</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="completePayment()">Complete Payment</button>
-                    <button class="btn btn-secondary" onclick="goToQuoteStep2()">Back</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Dashboard Page -->
-        <div class="page" id="dashboard-page">
-            <div class="header gradient-bg" style="position: relative;">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <div class="avatar">JD</div>
-                <h2>Welcome Back, John</h2>
-            </div>
-            <div class="content">
-                <div class="card">
-                    <div class="card-title">Policy Coverage</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Policy Number:</span>
-                            <span class="stat-value">WC-2024-789456</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Premium:</span>
-                            <span class="stat-value">$2,450.00/year</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Coverage Period:</span>
-                            <span class="stat-value">01/15/2025 - 01/15/2026</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">Recent Claims</div>
-                    <div class="card-content">
-                        <div class="claim-item">
-                            Claim #12345 <span class="status-badge status-completed">Completed</span>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Amount: $1,200.00</div>
-                        </div>
-                        <div class="claim-item">
-                            Claim #12346 <span class="status-badge status-pending">Pending</span>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Amount: $850.00</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">Upcoming Payments</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Due Date:</span>
-                            <span class="stat-value">02/15/2025</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Amount Due:</span>
-                            <span class="stat-value" style="color: #df436e;">$204.17</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" onclick="downloadPolicy()">Download Policy Document</button>
-            </div>
-            
-            <div class="bottom-nav">
-                <a class="nav-item active" onclick="navigateTo('dashboard')">
-                    <div class="nav-icon">🏠</div>
-                    <div>Home</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('manage-policy')">
-                    <div class="nav-icon">📋</div>
-                    <div>Policy</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('claims')">
-                    <div class="nav-icon">📝</div>
-                    <div>Claims</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('payments')">
-                    <div class="nav-icon">💳</div>
-                    <div>Payments</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('documents')">
-                    <div class="nav-icon">📄</div>
-                    <div>Documents</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Manage Policy Page -->
-        <div class="page" id="manage-policy-page">
-            <div class="header gradient-bg">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <h2>Manage Policy</h2>
-            </div>
-            <div class="content">
-                <div class="card">
-                    <div class="card-title">Current Policy Details</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Policy Number:</span>
-                            <span class="stat-value">WC-2024-789456</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Annual Premium:</span>
-                            <span class="stat-value">$2,450.00</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Monthly Payment:</span>
-                            <span class="stat-value">$204.17</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">Coverage Dates</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Start Date:</span>
-                            <span class="stat-value">01/15/2025</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">End Date:</span>
-                            <span class="stat-value">01/15/2026</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Days Remaining:</span>
-                            <span class="stat-value">93 days</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">Payment Information</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Next Due Date:</span>
-                            <span class="stat-value">02/15/2025</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Amount Due:</span>
-                            <span class="stat-value" style="color: #df436e;">$204.17</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" onclick="setupAutoPay()">Set Up Auto-Pay</button>
-            </div>
-            
-            <div class="bottom-nav">
-                <a class="nav-item" onclick="navigateTo('dashboard')">
-                    <div class="nav-icon">🏠</div>
-                    <div>Home</div>
-                </a>
-                <a class="nav-item active" onclick="navigateTo('manage-policy')">
-                    <div class="nav-icon">📋</div>
-                    <div>Policy</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('claims')">
-                    <div class="nav-icon">📝</div>
-                    <div>Claims</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('payments')">
-                    <div class="nav-icon">💳</div>
-                    <div>Payments</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('documents')">
-                    <div class="nav-icon">📄</div>
-                    <div>Documents</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Claims Page -->
-        <div class="page" id="claims-page">
-            <div class="header gradient-bg">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <h2>Claims</h2>
-            </div>
-            <div class="content">
-                <div class="card">
-                    <div class="card-title">Claims Summary</div>
-                    <div class="card-content">
-                        <div class="stat-row">
-                            <span class="stat-label">Total Claims:</span>
-                            <span class="stat-value">5</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Covered:</span>
-                            <span class="stat-value">3</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">Pending:</span>
-                            <span class="stat-value">2</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" onclick="fileNewClaim()">File a New Claim</button>
-                
-                <div class="card">
-                    <div class="card-title">Recent Claims</div>
-                    <div class="card-content">
-                        <div class="claim-item">
-                            <strong>Claim #12346</strong> <span class="status-badge status-pending">Pending</span>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Date: 10/01/2025</div>
-                            <div style="font-size: 12px; color: #666;">Amount: $850.00</div>
-                            <div style="font-size: 12px; color: #666;">Type: Workplace Injury</div>
-                        </div>
-                        <div class="claim-item">
-                            <strong>Claim #12345</strong> <span class="status-badge status-completed">Completed</span>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Date: 09/15/2025</div>
-                            <div style="font-size: 12px; color: #666;">Amount: $1,200.00</div>
-                            <div style="font-size: 12px; color: #666;">Type: Equipment Damage</div>
-                        </div>
-                        <div class="claim-item">
-                            <strong>Claim #12344</strong> <span class="status-badge status-covered">Covered</span>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Date: 08/20/2025</div>
-                            <div style="font-size: 12px; color: #666;">Amount: $2,400.00</div>
-                            <div style="font-size: 12px; color: #666;">Type: Medical Treatment</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bottom-nav">
-                <a class="nav-item" onclick="navigateTo('dashboard')">
-                    <div class="nav-icon">🏠</div>
-                    <div>Home</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('manage-policy')">
-                    <div class="nav-icon">📋</div>
-                    <div>Policy</div>
-                </a>
-                <a class="nav-item active" onclick="navigateTo('claims')">
-                    <div class="nav-icon">📝</div>
-                    <div>Claims</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('payments')">
-                    <div class="nav-icon">💳</div>
-                    <div>Payments</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('documents')">
-                    <div class="nav-icon">📄</div>
-                    <div>Documents</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Payments Page -->
-        <div class="page" id="payments-page">
-            <div class="header gradient-bg">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <h2>Payments</h2>
-            </div>
-            <div class="content">
-                <div class="card">
-                    <div class="card-title">Balance Due</div>
-                    <div class="card-content">
-                        <h2 style="color: #df436e; text-align: center; margin: 16px 0;">$204.17</h2>
-                        <div style="text-align: center; color: #666; font-size: 14px;">Due by: February 15, 2025</div>
-                    </div>
-                </div>
-                
-                <div class="card-title">Select Payment Method</div>
-                <div class="payment-methods">
-                    <div class="payment-method" onclick="selectPayment(this, 'paypal')">
-                        <div style="font-size: 32px;">💳</div>
-                        <div>PayPal</div>
-                    </div>
-                    <div class="payment-method" onclick="selectPayment(this, 'venmo')">
-                        <div style="font-size: 32px;">💰</div>
-                        <div>Venmo</div>
-                    </div>
-                    <div class="payment-method" onclick="selectPayment(this, 'card')">
-                        <div style="font-size: 32px;">💳</div>
-                        <div>Credit Card</div>
-                    </div>
-                    <div class="payment-method" onclick="selectPayment(this, 'debit')">
-                        <div style="font-size: 32px;">💳</div>
-                        <div>Debit Card</div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="makePayment()">Make Payment</button>
-                
-                <div class="card">
-                    <div class="card-title">Payment History</div>
-                    <div class="card-content">
-                        <div class="payment-item">
-                            <div style="display: flex; justify-content: space-between;">
-                                <strong>01/15/2025</strong>
-                                <strong style="color: #28a745;">$204.17</strong>
-                            </div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Payment Method: Credit Card</div>
-                        </div>
-                        <div class="payment-item">
-                            <div style="display: flex; justify-content: space-between;">
-                                <strong>12/15/2024</strong>
-                                <strong style="color: #28a745;">$204.17</strong>
-                            </div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Payment Method: PayPal</div>
-                        </div>
-                        <div class="payment-item">
-                            <div style="display: flex; justify-content: space-between;">
-                                <strong>11/15/2024</strong>
-                                <strong style="color: #28a745;">$204.17</strong>
-                            </div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Payment Method: Credit Card</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bottom-nav">
-                <a class="nav-item" onclick="navigateTo('dashboard')">
-                    <div class="nav-icon">🏠</div>
-                    <div>Home</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('manage-policy')">
-                    <div class="nav-icon">📋</div>
-                    <div>Policy</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('claims')">
-                    <div class="nav-icon">📝</div>
-                    <div>Claims</div>
-                </a>
-                <a class="nav-item active" onclick="navigateTo('payments')">
-                    <div class="nav-icon">💳</div>
-                    <div>Payments</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('documents')">
-                    <div class="nav-icon">📄</div>
-                    <div>Documents</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Documents Page -->
-        <div class="page" id="documents-page">
-            <div class="header gradient-bg">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <h2>Documents</h2>
-            </div>
-            <div class="content">
-                <div class="card">
-                    <div class="card-title">Available Documents</div>
-                    <div class="card-content">
-                        <div class="document-item">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div><strong>Policy Document 2025</strong></div>
-                                    <div style="font-size: 12px; color: #666;">PDF • 2.4 MB</div>
-                                </div>
-                                <button class="btn btn-primary" style="width: auto; padding: 8px 16px; margin: 0;" onclick="downloadDoc('policy')">📥</button>
-                            </div>
-                        </div>
-                        <div class="document-item">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div><strong>Coverage Summary</strong></div>
-                                    <div style="font-size: 12px; color: #666;">PDF • 856 KB</div>
-                                </div>
-                                <button class="btn btn-primary" style="width: auto; padding: 8px 16px; margin: 0;" onclick="downloadDoc('summary')">📥</button>
-                            </div>
-                        </div>
-                        <div class="document-item">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div><strong>Payment Receipt - Jan 2025</strong></div>
-                                    <div style="font-size: 12px; color: #666;">PDF • 124 KB</div>
-                                </div>
-                                <button class="btn btn-primary" style="width: auto; padding: 8px 16px; margin: 0;" onclick="downloadDoc('receipt-jan')">📥</button>
-                            </div>
-                        </div>
-                        <div class="document-item">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div><strong>Claim Documents</strong></div>
-                                    <div style="font-size: 12px; color: #666;">ZIP • 5.2 MB</div>
-                                </div>
-                                <button class="btn btn-primary" style="width: auto; padding: 8px 16px; margin: 0;" onclick="downloadDoc('claims')">📥</button>
-                            </div>
-                        </div>
-                        <div class="document-item">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div><strong>Tax Documents 2024</strong></div>
-                                    <div style="font-size: 12px; color: #666;">PDF • 1.1 MB</div>
-                                </div>
-                                <button class="btn btn-primary" style="width: auto; padding: 8px 16px; margin: 0;" onclick="downloadDoc('tax')">📥</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bottom-nav">
-                <a class="nav-item" onclick="navigateTo('dashboard')">
-                    <div class="nav-icon">🏠</div>
-                    <div>Home</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('manage-policy')">
-                    <div class="nav-icon">📋</div>
-                    <div>Policy</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('claims')">
-                    <div class="nav-icon">📝</div>
-                    <div>Claims</div>
-                </a>
-                <a class="nav-item" onclick="navigateTo('payments')">
-                    <div class="nav-icon">💳</div>
-                    <div>Payments</div>
-                </a>
-                <a class="nav-item active" onclick="navigateTo('documents')">
-                    <div class="nav-icon">📄</div>
-                    <div>Documents</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Account Page -->
-        <div class="page" id="account-page">
-            <div class="header gradient-bg">
-                <div class="hamburger" onclick="toggleSidebar()">☰</div>
-                <h2>Account Settings</h2>
-            </div>
-            <div class="content">
-                <div class="avatar">JD</div>
-                <h3 style="text-align: center; margin-bottom: 24px;">John Doe</h3>
-                
-                <div class="card">
-                    <div class="card-title">Personal Information</div>
-                    <div class="card-content">
-                        <div class="input-group">
-                            <label>Email</label>
-                            <input type="email" value="john.doe@example.com">
-                        </div>
-                        <div class="input-group">
-                            <label>Phone</label>
-                            <input type="tel" value="(555) 123-4567">
-                        </div>
-                        <div class="input-group">
-                            <label>Address</label>
-                            <textarea>123 Business St, Suite 100
-Sacramento, CA 95814</textarea>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary">Save Changes</button>
-                <button class="btn btn-secondary">Change Password</button>
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('dashboard')" data-bs-dismiss="offcanvas"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('manage-policy')" data-bs-dismiss="offcanvas"><i class="bi bi-file-text me-2"></i>Manage Policy</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('account')" data-bs-dismiss="offcanvas"><i class="bi bi-person me-2"></i>Account</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('claims')" data-bs-dismiss="offcanvas"><i class="bi bi-clipboard-check me-2"></i>Claims</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('payments')" data-bs-dismiss="offcanvas"><i class="bi bi-credit-card me-2"></i>Payments</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('documents')" data-bs-dismiss="offcanvas"><i class="bi bi-folder me-2"></i>Documents</a>
+                <a href="#" class="list-group-item list-group-item-action text-danger" onclick="logout()" data-bs-dismiss="offcanvas"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
             </div>
         </div>
     </div>
     
-    <script>
-        let selectedPaymentMethod = null;
-        
-        function navigateTo(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(page + '-page').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            closeSidebar();
-        }
-        
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('show');
-        }
-        
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        }
-        
-        document.getElementById('overlay').addEventListener('click', closeSidebar);
-        
-        function login() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            
-            if (username && password) {
-                alert('Login successful!');
-                navigateTo('dashboard');
-            } else {
-                alert('Please enter username and password');
-            }
-        }
-        
-        function logout() {
-            alert('Logged out successfully');
-            navigateTo('home');
-        }
-        
-        function goToQuoteStep1() {
-            document.getElementById('quote-step-1').classList.remove('hidden');
-            document.getElementById('quote-step-2').classList.add('hidden');
-            document.getElementById('quote-step-3').classList.add('hidden');
-            document.getElementById('step1-indicator').classList.add('active');
-            document.getElementById('step2-indicator').classList.remove('active', 'completed');
-            document.getElementById('step3-indicator').classList.remove('active');
-        }
-        
-        function goToQuoteStep2() {
-            const bizName = document.getElementById('biz-name').value;
-            if (!bizName) {
-                alert('Please fill in business name');
-                return;
-            }
-            
-            document.getElementById('quote-step-1').classList.add('hidden');
-            document.getElementById('quote-step-2').classList.remove('hidden');
-            document.getElementById('quote-step-3').classList.add('hidden');
-            document.getElementById('step1-indicator').classList.add('completed');
-            document.getElementById('step1-indicator').classList.remove('active');
-            document.getElementById('step2-indicator').classList.add('active');
-        }
-        
-        function goToQuoteStep3() {
-            document.getElementById('quote-step-1').classList.add('hidden');
-            document.getElementById('quote-step-2').classList.add('hidden');
-            document.getElementById('quote-step-3').classList.remove('hidden');
-            document.getElementById('step2-indicator').classList.add('completed');
-            document.getElementById('step2-indicator').classList.remove('active');
-            document.getElementById('step3-indicator').classList.add('active');
-        }
-        
-        function selectPayment(element, method) {
-            document.querySelectorAll('.payment-method').forEach(pm => pm.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPaymentMethod = method;
-        }
-        
-        function completePayment() {
-            if (!selectedPaymentMethod) {
-                alert('Please select a payment method');
-                return;
-            }
-            alert('Payment successful! Your policy is now active.');
-            navigateTo('dashboard');
-        }
-        
-        function downloadPolicy() {
-            alert('Downloading policy document...');
-        }
-        
-        function setupAutoPay() {
-            alert('Auto-pay setup initiated. Please complete the payment method setup.');
-        }
-        
-        function fileNewClaim() {
-            alert('Opening claim form...');
-        }
-        
-        function makePayment() {
-            if (!selectedPaymentMethod) {
-                alert('Please select a payment method');
-                return;
-            }
-            alert('Payment of $204.17 processed successfully!');
-        }
-        
-        function downloadDoc(docType) {
-            alert('Downloading ' + docType + ' document...');
-        }
-        
-        if ('serviceWorker' in navigator) {
-           navigator.serviceWorker.register('/scif/sw.js')
-                .then(function() { console.log('Service Worker Registered'); });
-        }
-    </script>
+    <div class="page active" id="home-page">
+        <div class="gradient-bg p-4 text-center">
+            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+                <div class="logo">SCIF</div>
+                <div class="text-start"><h5 class="mb-0 fw-bold">State Compensation</h5><h5 class="mb-0 fw-bold">Insurance Fund</h5></div>
+            </div>
+        </div>
+        <div class="hero-image"></div>
+        <div class="p-4">
+            <button class="btn btn-gradient w-100 py-3 mb-3 fw-bold" onclick="navigateTo('login')">Login</button>
+            <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="navigateTo('quote')">Get a Quote</button>
+        </div>
+    </div>
+    
+    <div class="page" id="login-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute start-0 top-50 translate-middle-y" onclick="navigateTo('home')"><i class="bi bi-arrow-left fs-3"></i></button>
+            <h2 class="text-center mb-0">Login</h2>
+        </div>
+        <div class="p-4">
+            <div class="mb-3"><label class="form-label">Email or Username</label><input type="text" class="form-control" id="login-username" placeholder="Enter email"></div>
+            <div class="mb-3"><label class="form-label">Password</label><input type="password" class="form-control" id="login-password" placeholder="Enter password"></div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="login()">Login</button>
+            <div class="text-center">
+                <a href="#" class="d-block mb-2 text-decoration-none" style="color:#df436e">Forgot Password?</a>
+                <a href="#" class="d-block mb-2 text-decoration-none" style="color:#df436e">Forgot Username?</a>
+                <a href="#" class="d-block text-decoration-none" style="color:#df436e">Set Up Biometrics</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page" id="quote-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute start-0 top-50 translate-middle-y" onclick="navigateTo('home')"><i class="bi bi-arrow-left fs-3"></i></button>
+            <h2 class="text-center mb-0">Get a Quote</h2>
+        </div>
+        <div class="d-flex justify-content-between p-4">
+            <div class="step active" id="step1-ind"><div class="step-number">1</div><div class="step-label">Info</div></div>
+            <div class="step" id="step2-ind"><div class="step-number">2</div><div class="step-label">Review</div></div>
+            <div class="step" id="step3-ind"><div class="step-number">3</div><div class="step-label">Payment</div></div>
+        </div>
+        <div class="p-4">
+            <div id="quote-step-1">
+                <div class="mb-3"><label class="form-label">Business Name</label><input type="text" class="form-control" id="biz-name"></div>
+                <div class="mb-3"><label class="form-label">Business Address</label><textarea class="form-control" id="biz-address" rows="3"></textarea></div>
+                <div class="mb-3"><label class="form-label">SSN/FEIN</label><input type="text" class="form-control" id="ssn-fein"></div>
+                <div class="mb-3"><label class="form-label">Class Codes</label><input type="text" class="form-control" id="class-codes"></div>
+                <div class="mb-3"><label class="form-label">Prior Losses</label><input type="text" class="form-control" id="losses"></div>
+                <div class="mb-3"><label class="form-label">Full-Time Employees</label><input type="number" class="form-control" id="emp-ft"></div>
+                <div class="mb-3"><label class="form-label">Part-Time Employees</label><input type="number" class="form-control" id="emp-pt"></div>
+                <div class="mb-3"><label class="form-label">Policy Start Date</label><input type="date" class="form-control" id="policy-start"></div>
+                <div class="mb-3"><label class="form-label">Legal Entity</label>
+                    <select class="form-select" id="legal-entity">
+                        <option value="">Select...</option>
+                        <option value="s-corp">S Corporation</option>
+                        <option value="llc">LLC</option>
+                        <option value="prof-corp">Professional Corporation</option>
+                        <option value="association">Association</option>
+                        <option value="sole-prop">Sole Proprietorship</option>
+                    </select>
+                </div>
+                <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="goToStep2()">Continue</button>
+            </div>
+            <div id="quote-step-2" class="d-none">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3">Policy Details</h6>
+                        <div class="d-flex justify-content-between mb-2"><span class="text-muted">Annual Premium:</span><span class="fw-bold">$2,450.00</span></div>
+                        <div class="d-flex justify-content-between mb-2"><span class="text-muted">Coverage Tier:</span><span class="fw-bold">Standard</span></div>
+                        <div class="d-flex justify-content-between"><span class="text-muted">Policy Start:</span><span class="fw-bold">01/15/2025</span></div>
+                    </div>
+                </div>
+                <button class="btn btn-gradient w-100 py-3 fw-bold mb-2" onclick="goToStep3()">Proceed to Payment</button>
+                <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="goToStep1()">Back</button>
+            </div>
+            <div id="quote-step-3" class="d-none">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body text-center"><h6 class="fw-bold">Total Amount Due</h6><h2 class="fw-bold" style="color:#df436e">$2,450.00</h2></div>
+                </div>
+                <h6 class="fw-bold mb-3">Select Payment Method</h6>
+                <div class="row g-3 mb-3">
+                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'paypal')"><i class="bi bi-paypal fs-1"></i><div>PayPal</div></div></div>
+                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'venmo')"><i class="bi bi-cash-coin fs-1"></i><div>Venmo</div></div></div>
+                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'card')"><i class="bi bi-credit-card fs-1"></i><div>Credit Card</div></div></div>
+                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'debit')"><i class="bi bi-credit-card-2-front fs-1"></i><div>Debit Card</div></div></div>
+                </div>
+                <button class="btn btn-gradient w-100 py-3 fw-bold mb-2" onclick="completePay()">Complete Payment</button>
+                <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="goToStep2()">Back</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page" id="dashboard-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <div class="text-center"><div class="avatar mx-auto mb-3">JD</div><h4 class="mb-0">Welcome Back, John</h4></div>
+        </div>
+        <div class="p-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Policy Coverage</h6>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Policy Number:</span><span class="fw-bold">WC-2024-789456</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Premium:</span><span class="fw-bold">$2,450.00/year</span></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted">Coverage Period:</span><span class="fw-bold">01/15/2025 - 01/15/2026</span></div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Recent Claims</h6>
+                    <div class="claim-item mb-2">Claim #12345 <span class="badge bg-success ms-2">Completed</span><div class="small text-muted mt-1">Amount: $1,200.00</div></div>
+                    <div class="claim-item">Claim #12346 <span class="badge bg-warning text-dark ms-2">Pending</span><div class="small text-muted mt-1">Amount: $850.00</div></div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Upcoming Payments</h6>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Due Date:</span><span class="fw-bold">02/15/2025</span></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted">Amount Due:</span><span class="fw-bold" style="color:#df436e">$204.17</span></div>
+                </div>
+            </div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="downloadPolicy()"><i class="bi bi-download me-2"></i>Download Policy</button>
+        </div>
+        <div class="bottom-nav d-flex">
+            <a class="nav-item-custom active" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        </div>
+    </div>
+    
+    <div class="page" id="manage-policy-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <h2 class="text-center mb-0">Manage Policy</h2>
+        </div>
+        <div class="p-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Current Policy Details</h6>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Policy Number:</span><span class="fw-bold">WC-2024-789456</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Annual Premium:</span><span class="fw-bold">$2,450.00</span></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted">Monthly Payment:</span><span class="fw-bold">$204.17</span></div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Coverage Dates</h6>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Start Date:</span><span class="fw-bold">01/15/2025</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">End Date:</span><span class="fw-bold">01/15/2026</span></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted">Days Remaining:</span><span class="fw-bold">93 days</span></div>
+                </div>
+            </div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="setupAutoPay()"><i class="bi bi-arrow-repeat me-2"></i>Set Up Auto-Pay</button>
+        </div>
+        <div class="bottom-nav d-flex">
+            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
+            <a class="nav-item-custom active" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        </div>
+    </div>
+    
+    <div class="page" id="claims-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <h2 class="text-center mb-0">Claims</h2>
+        </div>
+        <div class="p-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Claims Summary</h6>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Total Claims:</span><span class="fw-bold">5</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Covered:</span><span class="fw-bold">3</span></div>
+                    <div class="d-flex justify-content-between"><span class="text-muted">Pending:</span><span class="fw-bold">2</span></div>
+                </div>
+            </div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="fileNewClaim()">File a New Claim</button>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Recent Claims</h6>
+                    <div class="claim-item mb-2"><strong>Claim #12346</strong> <span class="badge bg-warning text-dark">Pending</span><div class="small text-muted mt-1">Date: 10/01/2025 • Amount: $850.00</div></div>
+                    <div class="claim-item mb-2"><strong>Claim #12345</strong> <span class="badge bg-success">Completed</span><div class="small text-muted mt-1">Date: 09/15/2025 • Amount: $1,200.00</div></div>
+                    <div class="claim-item"><strong>Claim #12344</strong> <span class="badge bg-info">Covered</span><div class="small text-muted mt-1">Date: 08/20/2025 • Amount: $2,400.00</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav d-flex">
+            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
+            <a class="nav-item-custom active" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        </div>
+    </div>
+    
+    <div class="page" id="payments-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <h2 class="text-center mb-0">Payments</h2>
+        </div>
+        <div class="p-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body text-center"><h6 class="fw-bold">Balance Due</h6><h2 class="fw-bold" style="color:#df436e">$204.17</h2><div class="text-muted">Due by: February 15, 2025</div></div>
+            </div>
+            <h6 class="fw-bold mb-3">Select Payment Method</h6>
+            <div class="row g-3 mb-3">
+                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'paypal')"><i class="bi bi-paypal fs-1"></i><div>PayPal</div></div></div>
+                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'venmo')"><i class="bi bi-cash-coin fs-1"></i><div>Venmo</div></div></div>
+                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'card')"><i class="bi bi-credit-card fs-1"></i><div>Credit Card</div></div></div>
+                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'debit')"><i class="bi bi-credit-card-2-front fs-1"></i><div>Debit Card</div></div></div>
+            </div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="makePayment()">Make Payment</button>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Payment History</h6>
+                    <div class="payment-item mb-2"><div class="d-flex justify-content-between"><strong>01/15/2025</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">Credit Card</div></div>
+                    <div class="payment-item mb-2"><div class="d-flex justify-content-between"><strong>12/15/2024</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">PayPal</div></div>
+                    <div class="payment-item"><div class="d-flex justify-content-between"><strong>11/15/2024</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">Credit Card</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav d-flex">
+            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
+            <a class="nav-item-custom active" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        </div>
+    </div>
+    
+    <div class="page" id="documents-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <h2 class="text-center mb-0">Documents</h2>
+        </div>
+        <div class="p-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Available Documents</h6>
+                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Policy Document 2025</strong><div class="small text-muted">PDF • 2.4 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('policy')"><i class="bi bi-download"></i></button></div></div>
+                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Coverage Summary</strong><div class="small text-muted">PDF • 856 KB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('summary')"><i class="bi bi-download"></i></button></div></div>
+                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Payment Receipt - Jan 2025</strong><div class="small text-muted">PDF • 124 KB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('receipt')"><i class="bi bi-download"></i></button></div></div>
+                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Claim Documents</strong><div class="small text-muted">ZIP • 5.2 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('claims')"><i class="bi bi-download"></i></button></div></div>
+                    <div class="document-item"><div class="d-flex justify-content-between align-items-center"><div><strong>Tax Documents 2024</strong><div class="small text-muted">PDF • 1.1 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('tax')"><i class="bi bi-download"></i></button></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav d-flex">
+            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
+            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
+            <a class="nav-item-custom active" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        </div>
+    </div>
+    
+    <div class="page" id="account-page">
+        <div class="gradient-bg p-4 position-relative">
+            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
+            <h2 class="text-center mb-0">Account Settings</h2>
+        </div>
+        <div class="p-4">
+            <div class="avatar mx-auto mb-3">JD</div>
+            <h3 class="text-center mb-4">John Doe</h3>
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Personal Information</h6>
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" value="john.doe@example.com"></div>
+                    <div class="mb-3"><label class="form-label">Phone</label><input type="tel" class="form-control" value="(555) 123-4567"></div>
+                    <div class="mb-3"><label class="form-label">Address</label><textarea class="form-control" rows="3">123 Business St, Suite 100
+Sacramento, CA 95814</textarea></div>
+                </div>
+            </div>
+            <button class="btn btn-gradient w-100 py-3 fw-bold mb-2">Save Changes</button>
+            <button class="btn btn-outline-gradient w-100 py-3 fw-bold">Change Password</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let selectedPaymentMethod=null;
+
+function navigateTo(page){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(page+'-page').classList.add('active');
+    document.querySelectorAll('.nav-item-custom').forEach(item=>item.classList.remove('active'));
+    const activeNav=document.querySelector(`.nav-item-custom[onclick*="${page}"]`);
+    if(activeNav)activeNav.classList.add('active');
+}
+
+function login(){
+    const username=document.getElementById('login-username').value;
+    const password=document.getElementById('login-password').value;
+    if(username&&password){
+        alert('Login successful!');
+        navigateTo('dashboard');
+    }else{
+        alert('Please enter username and password');
+    }
+}
+
+function logout(){
+    alert('Logged out successfully');
+    navigateTo('home');
+}
+
+function goToStep1(){
+    document.getElementById('quote-step-1').classList.remove('d-none');
+    document.getElementById('quote-step-2').classList.add('d-none');
+    document.getElementById('quote-step-3').classList.add('d-none');
+    document.getElementById('step1-ind').classList.add('active');
+    document.getElementById('step2-ind').classList.remove('active','completed');
+    document.getElementById('step3-ind').classList.remove('active');
+}
+
+function goToStep2(){
+    const bizName=document.getElementById('biz-name').value;
+    if(!bizName){
+        alert('Please fill in business name');
+        return;
+    }
+    document.getElementById('quote-step-1').classList.add('d-none');
+    document.getElementById('quote-step-2').classList.remove('d-none');
+    document.getElementById('quote-step-3').classList.add('d-none');
+    document.getElementById('step1-ind').classList.add('completed');
+    document.getElementById('step1-ind').classList.remove('active');
+    document.getElementById('step2-ind').classList.add('active');
+}
+
+function goToStep3(){
+    document.getElementById('quote-step-1').classList.add('d-none');
+    document.getElementById('quote-step-2').classList.add('d-none');
+    document.getElementById('quote-step-3').classList.remove('d-none');
+    document.getElementById('step2-ind').classList.add('completed');
+    document.getElementById('step2-ind').classList.remove('active');
+    document.getElementById('step3-ind').classList.add('active');
+}
+
+function selectPay(element,method){
+    document.querySelectorAll('.payment-method').forEach(pm=>pm.classList.remove('selected'));
+    element.classList.add('selected');
+    selectedPaymentMethod=method;
+}
+
+function completePay(){
+    if(!selectedPaymentMethod){
+        alert('Please select a payment method');
+        return;
+    }
+    alert('Payment successful! Your policy is now active.');
+    navigateTo('dashboard');
+}
+
+function downloadPolicy(){
+    alert('Downloading policy document...');
+}
+
+function setupAutoPay(){
+    alert('Auto-pay setup initiated.');
+}
+
+function fileNewClaim(){
+    alert('Opening claim form...');
+}
+
+function makePayment(){
+    if(!selectedPaymentMethod){
+        alert('Please select a payment method');
+        return;
+    }
+    alert('Payment of $204.17 processed successfully!');
+}
+
+function downloadDoc(docType){
+    alert('Downloading '+docType+' document...');
+}
+
+if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/scif/sw.js')
+        .then(function(){console.log('Service Worker Registered');});
+}
+</script>
 </body>
 </html>
