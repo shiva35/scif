@@ -1,423 +1,380 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#df436e">
     <title>SCIF Insurance</title>
-    <link rel="manifest" href="manifest.json">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root{--gradient:linear-gradient(45deg,#df436e,#ff945b)}body{background:#f5f5f5}.app-container{max-width:480px;margin:0 auto;background:#fff;min-height:100vh;padding-bottom:70px}.gradient-bg{background:var(--gradient);color:#fff}.btn-gradient{background:var(--gradient);border:none;color:#fff}.btn-gradient:hover{opacity:.9;color:#fff}.btn-outline-gradient{border:2px solid #df436e;color:#df436e;background:#fff}.btn-outline-gradient:hover{background:var(--gradient);color:#fff}.logo{width:60px;height:60px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#df436e;font-size:24px}.hero-image{width:100%;height:200px;background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect fill="%23667eea" width="400" height="200"/></svg>');background-size:cover}.avatar{width:60px;height:60px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:600}.page{display:none}.page.active{display:block}.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #dee2e6;z-index:1000}.nav-item-custom{flex:1;text-align:center;padding:10px 5px;color:#6c757d;text-decoration:none;font-size:12px;cursor:pointer}.nav-item-custom:hover,.nav-item-custom.active{color:#df436e}.nav-item-custom i{font-size:24px;display:block;margin-bottom:4px}.claim-item,.payment-item,.document-item{padding:12px;background:#f8f9fa;border-radius:8px;margin-bottom:10px;border-left:4px solid #df436e}.payment-method{padding:20px;border:2px solid #dee2e6;border-radius:8px;text-align:center;cursor:pointer;transition:all .2s}.payment-method:hover{border-color:#df436e;background:#fff5f7}.payment-method.selected{border-color:#df436e;background:var(--gradient);color:#fff}.step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}.step-number{width:36px;height:36px;border-radius:50%;background:#dee2e6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}.step.active .step-number{background:var(--gradient)}.step.completed .step-number{background:#198754}.step-label{font-size:11px;color:#6c757d}
+        :root{--gradient:linear-gradient(135deg,#df436e 0%,#ff945b 100%)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#f8f9fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+        .app-container{max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
+        .page{display:none;min-height:100vh}
+        .page.active{display:block}
+        .hero-section{background:var(--gradient);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;position:relative;overflow:hidden}
+        .hero-section::before{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.1);border-radius:50%;top:-100px;right:-100px}
+        .hero-logo{width:120px;height:120px;background:#fff;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#df436e;box-shadow:0 20px 60px rgba(0,0,0,.2);margin-bottom:30px;animation:float 3s ease-in-out infinite}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+        .hero-title{font-size:32px;font-weight:800;text-align:center;margin-bottom:15px;color:#fff}
+        .hero-subtitle{font-size:18px;text-align:center;opacity:.95;margin-bottom:50px;color:#fff}
+        .hero-illustration{width:100%;max-width:300px;margin:30px 0}
+        .btn-gradient{background:var(--gradient);border:none;color:#fff;font-weight:600;transition:all .3s}
+        .btn-gradient:hover{opacity:.9;color:#fff;transform:translateY(-2px)}
+        .gradient-bg{background:var(--gradient);color:#fff;padding:20px}
+        .illustration{width:200px;margin:20px auto;display:block}
+        .role-card{background:#fff;border-radius:16px;padding:20px;margin-bottom:15px;cursor:pointer;transition:all .3s;border:2px solid #ddd}
+        .role-card:hover{transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,0,0,.15);border-color:#df436e}
+        .role-card.selected{border-color:#df436e;background:rgba(223,67,110,.05)}
+        .role-icon{font-size:40px}
+        .wizard-step{display:none}
+        .wizard-step.active{display:block}
+        .step-indicator{display:flex;justify-content:center;gap:10px;margin:20px 0}
+        .step-dot{width:12px;height:12px;border-radius:50%;background:#ddd}
+        .step-dot.active{background:#df436e;width:30px;border-radius:6px}
+        .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+        .stat-box{background:#f8f9fa;border-radius:12px;padding:20px;text-align:center}
+        .stat-value{font-size:28px;font-weight:800;color:#df436e}
+        .quick-action{background:rgba(223,67,110,.05);border-radius:12px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:15px;cursor:pointer;transition:all .3s;border:1px solid transparent}
+        .quick-action:hover{transform:translateX(5px);border-color:#df436e}
+        .quick-action-icon{width:50px;height:50px;background:var(--gradient);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px}
+        .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;display:flex;padding:10px 0;box-shadow:0 -4px 20px rgba(0,0,0,.08);z-index:1000}
+        .nav-item{flex:1;text-align:center;padding:8px;color:#6c757d;font-size:11px;cursor:pointer}
+        .nav-item.active{color:#df436e}
+        .nav-item i{font-size:22px;display:block;margin-bottom:4px}
+        .avatar{width:70px;height:70px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700}
+        .content-scroll{padding:20px;padding-bottom:90px}
     </style>
 </head>
 <body>
 <div class="app-container">
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebarMenu">
-        <div class="offcanvas-header gradient-bg">
-            <h5 class="offcanvas-title">Menu</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body p-0">
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('dashboard')" data-bs-dismiss="offcanvas"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('manage-policy')" data-bs-dismiss="offcanvas"><i class="bi bi-file-text me-2"></i>Manage Policy</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('account')" data-bs-dismiss="offcanvas"><i class="bi bi-person me-2"></i>Account</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('claims')" data-bs-dismiss="offcanvas"><i class="bi bi-clipboard-check me-2"></i>Claims</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('payments')" data-bs-dismiss="offcanvas"><i class="bi bi-credit-card me-2"></i>Payments</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="navigateTo('documents')" data-bs-dismiss="offcanvas"><i class="bi bi-folder me-2"></i>Documents</a>
-                <a href="#" class="list-group-item list-group-item-action text-danger" onclick="logout()" data-bs-dismiss="offcanvas"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
-            </div>
-        </div>
-    </div>
     
+    <!-- HOME PAGE -->
     <div class="page active" id="home-page">
-        <div class="gradient-bg p-4 text-center">
-            <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                <div class="logo">SCIF</div>
-                <div class="text-start"><h5 class="mb-0 fw-bold">State Compensation</h5><h5 class="mb-0 fw-bold">Insurance Fund</h5></div>
-            </div>
-        </div>
-        <div class="hero-image"></div>
-        <div class="p-4">
-            <button class="btn btn-gradient w-100 py-3 mb-3 fw-bold" onclick="navigateTo('login')">Login</button>
-            <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="navigateTo('quote')">Get a Quote</button>
+        <div class="hero-section">
+            <div class="hero-logo">SCIF</div>
+            <h1 class="hero-title">State Compensation<br>Insurance Fund</h1>
+            <p class="hero-subtitle">Protecting California's workforce<br>with comprehensive coverage</p>
+            <img src="https://illustrations.popsy.co/amber/shield-with-a-check-mark.svg" alt="Protection" class="hero-illustration">
+            <button class="btn btn-light btn-lg px-5 py-3 mb-3" id="startBtn" style="border-radius:50px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.2)">Get Started</button>
+            <p style="opacity:.9;font-size:14px;color:#fff">Trusted by 50,000+ businesses</p>
         </div>
     </div>
     
+    <!-- LOGIN PAGE -->
     <div class="page" id="login-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute start-0 top-50 translate-middle-y" onclick="navigateTo('home')"><i class="bi bi-arrow-left fs-3"></i></button>
-            <h2 class="text-center mb-0">Login</h2>
+        <div class="gradient-bg">
+            <button class="btn btn-link text-white" id="backToHome"><i class="bi bi-arrow-left fs-3"></i></button>
+            <h2 class="text-center mb-0">Welcome Back</h2>
         </div>
         <div class="p-4">
-            <div class="mb-3"><label class="form-label">Email or Username</label><input type="text" class="form-control" id="login-username" placeholder="Enter email"></div>
-            <div class="mb-3"><label class="form-label">Password</label><input type="password" class="form-control" id="login-password" placeholder="Enter password"></div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="login()">Login</button>
-            <div class="text-center">
-                <a href="#" class="d-block mb-2 text-decoration-none" style="color:#df436e">Forgot Password?</a>
-                <a href="#" class="d-block mb-2 text-decoration-none" style="color:#df436e">Forgot Username?</a>
-                <a href="#" class="d-block text-decoration-none" style="color:#df436e">Set Up Biometrics</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="page" id="quote-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute start-0 top-50 translate-middle-y" onclick="navigateTo('home')"><i class="bi bi-arrow-left fs-3"></i></button>
-            <h2 class="text-center mb-0">Get a Quote</h2>
-        </div>
-        <div class="d-flex justify-content-between p-4">
-            <div class="step active" id="step1-ind"><div class="step-number">1</div><div class="step-label">Info</div></div>
-            <div class="step" id="step2-ind"><div class="step-number">2</div><div class="step-label">Review</div></div>
-            <div class="step" id="step3-ind"><div class="step-number">3</div><div class="step-label">Payment</div></div>
-        </div>
-        <div class="p-4">
-            <div id="quote-step-1">
-                <div class="mb-3"><label class="form-label">Business Name</label><input type="text" class="form-control" id="biz-name"></div>
-                <div class="mb-3"><label class="form-label">Business Address</label><textarea class="form-control" id="biz-address" rows="3"></textarea></div>
-                <div class="mb-3"><label class="form-label">SSN/FEIN</label><input type="text" class="form-control" id="ssn-fein"></div>
-                <div class="mb-3"><label class="form-label">Class Codes</label><input type="text" class="form-control" id="class-codes"></div>
-                <div class="mb-3"><label class="form-label">Prior Losses</label><input type="text" class="form-control" id="losses"></div>
-                <div class="mb-3"><label class="form-label">Full-Time Employees</label><input type="number" class="form-control" id="emp-ft"></div>
-                <div class="mb-3"><label class="form-label">Part-Time Employees</label><input type="number" class="form-control" id="emp-pt"></div>
-                <div class="mb-3"><label class="form-label">Policy Start Date</label><input type="date" class="form-control" id="policy-start"></div>
-                <div class="mb-3"><label class="form-label">Legal Entity</label>
-                    <select class="form-select" id="legal-entity">
-                        <option value="">Select...</option>
-                        <option value="s-corp">S Corporation</option>
-                        <option value="llc">LLC</option>
-                        <option value="prof-corp">Professional Corporation</option>
-                        <option value="association">Association</option>
-                        <option value="sole-prop">Sole Proprietorship</option>
-                    </select>
-                </div>
-                <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="goToStep2()">Continue</button>
-            </div>
-            <div id="quote-step-2" class="d-none">
-                <div class="card shadow-sm mb-3">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-3">Policy Details</h6>
-                        <div class="d-flex justify-content-between mb-2"><span class="text-muted">Annual Premium:</span><span class="fw-bold">$2,450.00</span></div>
-                        <div class="d-flex justify-content-between mb-2"><span class="text-muted">Coverage Tier:</span><span class="fw-bold">Standard</span></div>
-                        <div class="d-flex justify-content-between"><span class="text-muted">Policy Start:</span><span class="fw-bold">01/15/2025</span></div>
+            <img src="https://illustrations.popsy.co/amber/login.svg" alt="Login" class="illustration">
+            
+            <div id="role-selection">
+                <h6 class="fw-bold mb-3">I am a...</h6>
+                <div class="role-card" data-role="employer">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">🏢</div>
+                        <div><h6 class="mb-0 fw-bold">Employer</h6><small class="text-muted">Manage your business</small></div>
                     </div>
                 </div>
-                <button class="btn btn-gradient w-100 py-3 fw-bold mb-2" onclick="goToStep3()">Proceed to Payment</button>
-                <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="goToStep1()">Back</button>
+                <div class="role-card" data-role="worker">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">👷</div>
+                        <div><h6 class="mb-0 fw-bold">Injured Worker</h6><small class="text-muted">Track your claim</small></div>
+                    </div>
+                </div>
+                <div class="role-card" data-role="adjuster">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">📊</div>
+                        <div><h6 class="mb-0 fw-bold">Underwriter</h6><small class="text-muted">Process claims</small></div>
+                    </div>
+                </div>
+                <div class="role-card" data-role="broker">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">🤝</div>
+                        <div><h6 class="mb-0 fw-bold">Broker</h6><small class="text-muted">Manage clients</small></div>
+                    </div>
+                </div>
             </div>
-            <div id="quote-step-3" class="d-none">
-                <div class="card shadow-sm mb-3">
-                    <div class="card-body text-center"><h6 class="fw-bold">Total Amount Due</h6><h2 class="fw-bold" style="color:#df436e">$2,450.00</h2></div>
+            
+            <div id="login-form" class="d-none">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <button class="btn btn-outline-secondary btn-sm" id="changeRole"><i class="bi bi-arrow-left me-1"></i>Change Role</button>
+                    <span class="badge bg-primary" id="selectedRoleBadge"></span>
                 </div>
-                <h6 class="fw-bold mb-3">Select Payment Method</h6>
-                <div class="row g-3 mb-3">
-                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'paypal')"><i class="bi bi-paypal fs-1"></i><div>PayPal</div></div></div>
-                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'venmo')"><i class="bi bi-cash-coin fs-1"></i><div>Venmo</div></div></div>
-                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'card')"><i class="bi bi-credit-card fs-1"></i><div>Credit Card</div></div></div>
-                    <div class="col-6"><div class="payment-method" onclick="selectPay(this,'debit')"><i class="bi bi-credit-card-2-front fs-1"></i><div>Debit Card</div></div></div>
+                <div class="mb-3"><label class="form-label fw-bold">Username</label><input type="text" class="form-control form-control-lg" id="username" placeholder="Enter username"></div>
+                <div class="mb-3"><label class="form-label fw-bold">Password</label><input type="password" class="form-control form-control-lg" id="password" placeholder="Enter password"></div>
+                <button class="btn btn-gradient w-100 py-3 mb-3" id="loginBtn">Login</button>
+                <div class="text-center">
+                    <a href="#" class="d-block mb-3 text-decoration-none" style="color:#df436e">Forgot Password?</a>
+                    <hr>
+                    <p class="text-muted mb-2">Don't have an account?</p>
+                    <button class="btn btn-outline-secondary w-100 py-2" id="signupBtn">Sign Up</button>
                 </div>
-                <button class="btn btn-gradient w-100 py-3 fw-bold mb-2" onclick="completePay()">Complete Payment</button>
-                <button class="btn btn-outline-gradient w-100 py-3 fw-bold" onclick="goToStep2()">Back</button>
             </div>
         </div>
     </div>
     
-    <div class="page" id="dashboard-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <div class="text-center"><div class="avatar mx-auto mb-3">JD</div><h4 class="mb-0">Welcome Back, John</h4></div>
+    <!-- SIGNUP PAGE -->
+    <div class="page" id="signup-page">
+        <div class="gradient-bg">
+            <button class="btn btn-link text-white" id="backToLogin"><i class="bi bi-arrow-left fs-3"></i></button>
+            <h2 class="text-center mb-0">Create Account</h2>
+        </div>
+        <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
         </div>
         <div class="p-4">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Policy Coverage</h6>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Policy Number:</span><span class="fw-bold">WC-2024-789456</span></div>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Premium:</span><span class="fw-bold">$2,450.00/year</span></div>
-                    <div class="d-flex justify-content-between"><span class="text-muted">Coverage Period:</span><span class="fw-bold">01/15/2025 - 01/15/2026</span></div>
+            <div class="wizard-step active" id="step1">
+                <img src="https://illustrations.popsy.co/amber/question.svg" alt="Question" class="illustration">
+                <h4 class="text-center fw-bold mb-4">Who are you?</h4>
+                <div class="role-card" data-signup-role="employer">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">🏢</div>
+                        <div><h6 class="mb-0 fw-bold">Employer</h6></div>
+                    </div>
+                </div>
+                <div class="role-card" data-signup-role="worker">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">👷</div>
+                        <div><h6 class="mb-0 fw-bold">Injured Worker</h6></div>
+                    </div>
+                </div>
+                <div class="role-card" data-signup-role="adjuster">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">📊</div>
+                        <div><h6 class="mb-0 fw-bold">Underwriter</h6></div>
+                    </div>
+                </div>
+                <div class="role-card" data-signup-role="broker">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="role-icon">🤝</div>
+                        <div><h6 class="mb-0 fw-bold">Broker</h6></div>
+                    </div>
                 </div>
             </div>
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Recent Claims</h6>
-                    <div class="claim-item mb-2">Claim #12345 <span class="badge bg-success ms-2">Completed</span><div class="small text-muted mt-1">Amount: $1,200.00</div></div>
-                    <div class="claim-item">Claim #12346 <span class="badge bg-warning text-dark ms-2">Pending</span><div class="small text-muted mt-1">Amount: $850.00</div></div>
-                </div>
+            <div class="wizard-step" id="step2">
+                <img src="https://illustrations.popsy.co/amber/personal-information.svg" alt="Info" class="illustration">
+                <h5 class="fw-bold mb-4">Your Information</h5>
+                <div class="mb-3"><input type="text" class="form-control" id="fullname" placeholder="Full Name"></div>
+                <div class="mb-3"><input type="email" class="form-control" id="email" placeholder="Email"></div>
+                <div class="mb-3"><input type="tel" class="form-control" id="phone" placeholder="Phone"></div>
+                <button class="btn btn-gradient w-100 py-3" id="step2Next">Continue</button>
             </div>
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Upcoming Payments</h6>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Due Date:</span><span class="fw-bold">02/15/2025</span></div>
-                    <div class="d-flex justify-content-between"><span class="text-muted">Amount Due:</span><span class="fw-bold" style="color:#df436e">$204.17</span></div>
-                </div>
+            <div class="wizard-step" id="step3">
+                <img src="https://illustrations.popsy.co/amber/secure-login.svg" alt="Security" class="illustration">
+                <h5 class="fw-bold mb-4">Secure Account</h5>
+                <div class="mb-3"><input type="text" class="form-control" id="signupUsername" placeholder="Username"></div>
+                <div class="mb-3"><input type="password" class="form-control" id="signupPassword" placeholder="Password"></div>
+                <div class="mb-3"><input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"></div>
+                <button class="btn btn-gradient w-100 py-3" id="completeSignup">Create Account</button>
             </div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="downloadPolicy()"><i class="bi bi-download me-2"></i>Download Policy</button>
-        </div>
-        <div class="bottom-nav d-flex">
-            <a class="nav-item-custom active" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
         </div>
     </div>
     
-    <div class="page" id="manage-policy-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <h2 class="text-center mb-0">Manage Policy</h2>
-        </div>
-        <div class="p-4">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Current Policy Details</h6>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Policy Number:</span><span class="fw-bold">WC-2024-789456</span></div>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Annual Premium:</span><span class="fw-bold">$2,450.00</span></div>
-                    <div class="d-flex justify-content-between"><span class="text-muted">Monthly Payment:</span><span class="fw-bold">$204.17</span></div>
-                </div>
+    <!-- DASHBOARDS -->
+    <div class="page" id="employer-dashboard">
+        <div class="gradient-bg">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar">EM</div>
+                <div><h5 class="mb-0">ABC Company</h5><small>Employer Portal</small></div>
             </div>
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Coverage Dates</h6>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Start Date:</span><span class="fw-bold">01/15/2025</span></div>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">End Date:</span><span class="fw-bold">01/15/2026</span></div>
-                    <div class="d-flex justify-content-between"><span class="text-muted">Days Remaining:</span><span class="fw-bold">93 days</span></div>
-                </div>
-            </div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold" onclick="setupAutoPay()"><i class="bi bi-arrow-repeat me-2"></i>Set Up Auto-Pay</button>
         </div>
-        <div class="bottom-nav d-flex">
-            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
-            <a class="nav-item-custom active" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        <div class="content-scroll">
+            <div class="stat-grid">
+                <div class="stat-box"><div class="stat-value">25</div><div class="small text-muted">Employees</div></div>
+                <div class="stat-box"><div class="stat-value">3</div><div class="small text-muted">Claims</div></div>
+            </div>
+            <h6 class="fw-bold mb-3">Quick Actions</h6>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-people-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">Manage Employees</h6><small class="text-muted">Add or update info</small></div></div>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-clipboard-check-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">View Claims</h6><small class="text-muted">Track claims</small></div></div>
+        </div>
+        <div class="bottom-nav">
+            <a class="nav-item active"><i class="bi bi-house-door-fill"></i>Home</a>
+            <a class="nav-item"><i class="bi bi-people-fill"></i>Team</a>
+            <a class="nav-item"><i class="bi bi-clipboard-check-fill"></i>Claims</a>
+            <a class="nav-item" id="logoutEmployer"><i class="bi bi-box-arrow-right"></i>Logout</a>
         </div>
     </div>
     
-    <div class="page" id="claims-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <h2 class="text-center mb-0">Claims</h2>
-        </div>
-        <div class="p-4">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Claims Summary</h6>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Total Claims:</span><span class="fw-bold">5</span></div>
-                    <div class="d-flex justify-content-between mb-2"><span class="text-muted">Covered:</span><span class="fw-bold">3</span></div>
-                    <div class="d-flex justify-content-between"><span class="text-muted">Pending:</span><span class="fw-bold">2</span></div>
-                </div>
-            </div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="fileNewClaim()">File a New Claim</button>
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Recent Claims</h6>
-                    <div class="claim-item mb-2"><strong>Claim #12346</strong> <span class="badge bg-warning text-dark">Pending</span><div class="small text-muted mt-1">Date: 10/01/2025 • Amount: $850.00</div></div>
-                    <div class="claim-item mb-2"><strong>Claim #12345</strong> <span class="badge bg-success">Completed</span><div class="small text-muted mt-1">Date: 09/15/2025 • Amount: $1,200.00</div></div>
-                    <div class="claim-item"><strong>Claim #12344</strong> <span class="badge bg-info">Covered</span><div class="small text-muted mt-1">Date: 08/20/2025 • Amount: $2,400.00</div></div>
-                </div>
+    <div class="page" id="worker-dashboard">
+        <div class="gradient-bg">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar">JS</div>
+                <div><h5 class="mb-0">John Smith</h5><small>Worker Portal</small></div>
             </div>
         </div>
-        <div class="bottom-nav d-flex">
-            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
-            <a class="nav-item-custom active" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        <div class="content-scroll">
+            <div class="alert alert-info">Your claim is being processed</div>
+            <div class="stat-grid">
+                <div class="stat-box"><div class="stat-value">$1,200</div><div class="small text-muted">Benefits Paid</div></div>
+                <div class="stat-box"><div class="stat-value">3</div><div class="small text-muted">Appointments</div></div>
+            </div>
+            <h6 class="fw-bold mb-3">Quick Actions</h6>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-eye-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">View Claim</h6></div></div>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-hospital-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">Medical Records</h6></div></div>
+        </div>
+        <div class="bottom-nav">
+            <a class="nav-item active"><i class="bi bi-house-door-fill"></i>Home</a>
+            <a class="nav-item"><i class="bi bi-clipboard-check-fill"></i>Claim</a>
+            <a class="nav-item"><i class="bi bi-hospital-fill"></i>Medical</a>
+            <a class="nav-item" id="logoutWorker"><i class="bi bi-box-arrow-right"></i>Logout</a>
         </div>
     </div>
     
-    <div class="page" id="payments-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <h2 class="text-center mb-0">Payments</h2>
-        </div>
-        <div class="p-4">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body text-center"><h6 class="fw-bold">Balance Due</h6><h2 class="fw-bold" style="color:#df436e">$204.17</h2><div class="text-muted">Due by: February 15, 2025</div></div>
-            </div>
-            <h6 class="fw-bold mb-3">Select Payment Method</h6>
-            <div class="row g-3 mb-3">
-                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'paypal')"><i class="bi bi-paypal fs-1"></i><div>PayPal</div></div></div>
-                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'venmo')"><i class="bi bi-cash-coin fs-1"></i><div>Venmo</div></div></div>
-                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'card')"><i class="bi bi-credit-card fs-1"></i><div>Credit Card</div></div></div>
-                <div class="col-6"><div class="payment-method" onclick="selectPay(this,'debit')"><i class="bi bi-credit-card-2-front fs-1"></i><div>Debit Card</div></div></div>
-            </div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold mb-3" onclick="makePayment()">Make Payment</button>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Payment History</h6>
-                    <div class="payment-item mb-2"><div class="d-flex justify-content-between"><strong>01/15/2025</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">Credit Card</div></div>
-                    <div class="payment-item mb-2"><div class="d-flex justify-content-between"><strong>12/15/2024</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">PayPal</div></div>
-                    <div class="payment-item"><div class="d-flex justify-content-between"><strong>11/15/2024</strong><strong class="text-success">$204.17</strong></div><div class="small text-muted mt-1">Credit Card</div></div>
-                </div>
+    <div class="page" id="adjuster-dashboard">
+        <div class="gradient-bg">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar">JD</div>
+                <div><h5 class="mb-0">Jane Doe</h5><small>Underwriter Portal</small></div>
             </div>
         </div>
-        <div class="bottom-nav d-flex">
-            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
-            <a class="nav-item-custom active" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
+        <div class="content-scroll">
+            <div class="stat-grid">
+                <div class="stat-box"><div class="stat-value" style="color:#dc3545">12</div><div class="small text-muted">Pending</div></div>
+                <div class="stat-box"><div class="stat-value" style="color:#ffc107">8</div><div class="small text-muted">In Review</div></div>
+            </div>
+            <h6 class="fw-bold mb-3">Quick Actions</h6>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-list-check"></i></div><div class="flex-grow-1"><h6 class="mb-0">Claims Queue</h6></div></div>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-graph-up"></i></div><div class="flex-grow-1"><h6 class="mb-0">Analytics</h6></div></div>
+        </div>
+        <div class="bottom-nav">
+            <a class="nav-item active"><i class="bi bi-house-door-fill"></i>Home</a>
+            <a class="nav-item"><i class="bi bi-list-check"></i>Queue</a>
+            <a class="nav-item"><i class="bi bi-graph-up"></i>Analytics</a>
+            <a class="nav-item" id="logoutAdjuster"><i class="bi bi-box-arrow-right"></i>Logout</a>
         </div>
     </div>
     
-    <div class="page" id="documents-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <h2 class="text-center mb-0">Documents</h2>
-        </div>
-        <div class="p-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Available Documents</h6>
-                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Policy Document 2025</strong><div class="small text-muted">PDF • 2.4 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('policy')"><i class="bi bi-download"></i></button></div></div>
-                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Coverage Summary</strong><div class="small text-muted">PDF • 856 KB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('summary')"><i class="bi bi-download"></i></button></div></div>
-                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Payment Receipt - Jan 2025</strong><div class="small text-muted">PDF • 124 KB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('receipt')"><i class="bi bi-download"></i></button></div></div>
-                    <div class="document-item mb-2"><div class="d-flex justify-content-between align-items-center"><div><strong>Claim Documents</strong><div class="small text-muted">ZIP • 5.2 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('claims')"><i class="bi bi-download"></i></button></div></div>
-                    <div class="document-item"><div class="d-flex justify-content-between align-items-center"><div><strong>Tax Documents 2024</strong><div class="small text-muted">PDF • 1.1 MB</div></div><button class="btn btn-gradient btn-sm" onclick="downloadDoc('tax')"><i class="bi bi-download"></i></button></div></div>
-                </div>
+    <div class="page" id="broker-dashboard">
+        <div class="gradient-bg">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar">MJ</div>
+                <div><h5 class="mb-0">Mike Johnson</h5><small>Broker Portal</small></div>
             </div>
         </div>
-        <div class="bottom-nav d-flex">
-            <a class="nav-item-custom" onclick="navigateTo('dashboard')"><i class="bi bi-house-door-fill"></i><div>Home</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('manage-policy')"><i class="bi bi-file-text-fill"></i><div>Policy</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('claims')"><i class="bi bi-clipboard-check-fill"></i><div>Claims</div></a>
-            <a class="nav-item-custom" onclick="navigateTo('payments')"><i class="bi bi-credit-card-fill"></i><div>Payments</div></a>
-            <a class="nav-item-custom active" onclick="navigateTo('documents')"><i class="bi bi-folder-fill"></i><div>Documents</div></a>
-        </div>
-    </div>
-    
-    <div class="page" id="account-page">
-        <div class="gradient-bg p-4 position-relative">
-            <button class="btn btn-link text-white position-absolute end-0 top-50 translate-middle-y" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"><i class="bi bi-list fs-2"></i></button>
-            <h2 class="text-center mb-0">Account Settings</h2>
-        </div>
-        <div class="p-4">
-            <div class="avatar mx-auto mb-3">JD</div>
-            <h3 class="text-center mb-4">John Doe</h3>
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Personal Information</h6>
-                    <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" value="john.doe@example.com"></div>
-                    <div class="mb-3"><label class="form-label">Phone</label><input type="tel" class="form-control" value="(555) 123-4567"></div>
-                    <div class="mb-3"><label class="form-label">Address</label><textarea class="form-control" rows="3">123 Business St, Suite 100
-Sacramento, CA 95814</textarea></div>
-                </div>
+        <div class="content-scroll">
+            <div class="stat-grid">
+                <div class="stat-box"><div class="stat-value">45</div><div class="small text-muted">Clients</div></div>
+                <div class="stat-box"><div class="stat-value">$125K</div><div class="small text-muted">Premium</div></div>
             </div>
-            <button class="btn btn-gradient w-100 py-3 fw-bold mb-2">Save Changes</button>
-            <button class="btn btn-outline-gradient w-100 py-3 fw-bold">Change Password</button>
+            <h6 class="fw-bold mb-3">Quick Actions</h6>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-people-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">Manage Clients</h6></div></div>
+            <div class="quick-action"><div class="quick-action-icon"><i class="bi bi-calculator-fill"></i></div><div class="flex-grow-1"><h6 class="mb-0">New Quote</h6></div></div>
+        </div>
+        <div class="bottom-nav">
+            <a class="nav-item active"><i class="bi bi-house-door-fill"></i>Home</a>
+            <a class="nav-item"><i class="bi bi-people-fill"></i>Clients</a>
+            <a class="nav-item"><i class="bi bi-calculator-fill"></i>Quotes</a>
+            <a class="nav-item" id="logoutBroker"><i class="bi bi-box-arrow-right"></i>Logout</a>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let selectedPaymentMethod=null;
+let currentRole='';
+let signupRole='';
+let currentStep=1;
 
-function navigateTo(page){
+function showPage(pageId){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(page+'-page').classList.add('active');
-    document.querySelectorAll('.nav-item-custom').forEach(item=>item.classList.remove('active'));
-    const activeNav=document.querySelector(`.nav-item-custom[onclick*="${page}"]`);
-    if(activeNav)activeNav.classList.add('active');
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0,0);
 }
 
-function login(){
-    const username=document.getElementById('login-username').value;
-    const password=document.getElementById('login-password').value;
-    if(username&&password){
-        alert('Login successful!');
-        navigateTo('dashboard');
-    }else{
-        alert('Please enter username and password');
-    }
+// Home to Login
+document.getElementById('startBtn').addEventListener('click',()=>showPage('login-page'));
+document.getElementById('backToHome').addEventListener('click',()=>{
+    showPage('home-page');
+    resetLogin();
+});
+
+function resetLogin(){
+    document.getElementById('role-selection').classList.remove('d-none');
+    document.getElementById('login-form').classList.add('d-none');
+    document.querySelectorAll('[data-role]').forEach(c=>c.classList.remove('selected'));
+    currentRole='';
 }
 
-function logout(){
-    alert('Logged out successfully');
-    navigateTo('home');
-}
+// Role selection in login
+const roleLabels={
+    employer:'🏢 Employer',
+    worker:'👷 Injured Worker',
+    adjuster:'📊 Underwriter',
+    broker:'🤝 Broker'
+};
 
-function goToStep1(){
-    document.getElementById('quote-step-1').classList.remove('d-none');
-    document.getElementById('quote-step-2').classList.add('d-none');
-    document.getElementById('quote-step-3').classList.add('d-none');
-    document.getElementById('step1-ind').classList.add('active');
-    document.getElementById('step2-ind').classList.remove('active','completed');
-    document.getElementById('step3-ind').classList.remove('active');
-}
+document.querySelectorAll('[data-role]').forEach(card=>{
+    card.addEventListener('click',function(){
+        document.querySelectorAll('[data-role]').forEach(c=>c.classList.remove('selected'));
+        this.classList.add('selected');
+        currentRole=this.dataset.role;
+        
+        setTimeout(()=>{
+            document.getElementById('role-selection').classList.add('d-none');
+            document.getElementById('login-form').classList.remove('d-none');
+            document.getElementById('selectedRoleBadge').textContent=roleLabels[currentRole];
+        },300);
+    });
+});
 
-function goToStep2(){
-    const bizName=document.getElementById('biz-name').value;
-    if(!bizName){
-        alert('Please fill in business name');
-        return;
-    }
-    document.getElementById('quote-step-1').classList.add('d-none');
-    document.getElementById('quote-step-2').classList.remove('d-none');
-    document.getElementById('quote-step-3').classList.add('d-none');
-    document.getElementById('step1-ind').classList.add('completed');
-    document.getElementById('step1-ind').classList.remove('active');
-    document.getElementById('step2-ind').classList.add('active');
-}
+// Change role button
+document.getElementById('changeRole').addEventListener('click',()=>{
+    document.getElementById('role-selection').classList.remove('d-none');
+    document.getElementById('login-form').classList.add('d-none');
+});
 
-function goToStep3(){
-    document.getElementById('quote-step-1').classList.add('d-none');
-    document.getElementById('quote-step-2').classList.add('d-none');
-    document.getElementById('quote-step-3').classList.remove('d-none');
-    document.getElementById('step2-ind').classList.add('completed');
-    document.getElementById('step2-ind').classList.remove('active');
-    document.getElementById('step3-ind').classList.add('active');
-}
+// Login
+document.getElementById('loginBtn').addEventListener('click',()=>{
+    if(!currentRole)return alert('Select a role');
+    showPage(currentRole+'-dashboard');
+});
 
-function selectPay(element,method){
-    document.querySelectorAll('.payment-method').forEach(pm=>pm.classList.remove('selected'));
-    element.classList.add('selected');
-    selectedPaymentMethod=method;
-}
+// To Signup
+document.getElementById('signupBtn').addEventListener('click',()=>showPage('signup-page'));
+document.getElementById('backToLogin').addEventListener('click',()=>showPage('login-page'));
 
-function completePay(){
-    if(!selectedPaymentMethod){
-        alert('Please select a payment method');
-        return;
-    }
-    alert('Payment successful! Your policy is now active.');
-    navigateTo('dashboard');
-}
+// Signup role selection
+document.querySelectorAll('[data-signup-role]').forEach(card=>{
+    card.addEventListener('click',function(){
+        document.querySelectorAll('[data-signup-role]').forEach(c=>c.classList.remove('selected'));
+        this.classList.add('selected');
+        signupRole=this.dataset.signupRole;
+        setTimeout(()=>{
+            document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));
+            document.getElementById('step2').classList.add('active');
+            document.querySelectorAll('.step-dot')[0].classList.remove('active');
+            document.querySelectorAll('.step-dot')[1].classList.add('active');
+        },500);
+    });
+});
 
-function downloadPolicy(){
-    alert('Downloading policy document...');
-}
+// Step 2 to 3
+document.getElementById('step2Next').addEventListener('click',()=>{
+    document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));
+    document.getElementById('step3').classList.add('active');
+    document.querySelectorAll('.step-dot')[1].classList.remove('active');
+    document.querySelectorAll('.step-dot')[2].classList.add('active');
+});
 
-function setupAutoPay(){
-    alert('Auto-pay setup initiated.');
-}
+// Complete signup
+document.getElementById('completeSignup').addEventListener('click',()=>{
+    alert('Account created!');
+    currentRole=signupRole;
+    showPage('login-page');
+});
 
-function fileNewClaim(){
-    alert('Opening claim form...');
-}
-
-function makePayment(){
-    if(!selectedPaymentMethod){
-        alert('Please select a payment method');
-        return;
-    }
-    alert('Payment of $204.17 processed successfully!');
-}
-
-function downloadDoc(docType){
-    alert('Downloading '+docType+' document...');
-}
-
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/scif/sw.js')
-        .then(function(){console.log('Service Worker Registered');});
-}
+// Logout buttons
+document.getElementById('logoutEmployer').addEventListener('click',()=>showPage('home-page'));
+document.getElementById('logoutWorker').addEventListener('click',()=>showPage('home-page'));
+document.getElementById('logoutAdjuster').addEventListener('click',()=>showPage('home-page'));
+document.getElementById('logoutBroker').addEventListener('click',()=>showPage('home-page'));
 </script>
 </body>
 </html>
